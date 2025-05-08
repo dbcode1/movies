@@ -1,0 +1,50 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 6000;
+}
+
+.modal-main {
+  position: fixed;
+  background: white;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60%;
+  /* margin: 0 auto; */
+  height: 70%;
+  overflow: auto;
+  border: none;
+  padding: 30px;
+  line-height: 25px;
+  border-radius: 10px;
+
+  box-shadow: -1px 16px 31px 0px rgba(0, 0, 0, 0.27);
+}
+
+.display-block {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.5s linear;
+}
+
+.display-none {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 1s, opacity 0.5s linear;
+}
+
+.close {
+  padding: 0;
+}
+
+.youtube-overlay {
+  background: rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+}

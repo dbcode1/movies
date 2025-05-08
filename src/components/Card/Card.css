@@ -1,0 +1,79 @@
+.card {
+  position: relative;
+  width: 12rem;
+  margin: 1rem;
+  
+}
+
+img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.img-overlay {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.25);
+  z-index: 1000;
+}
+
+.display-block {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.5s linear;
+}
+
+.display-none {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 1s, opacity 0.5s linear;
+}
+
+.play-icon, .text-icon {
+  cursor: pointer;
+  filter: invert(100%) sepia(99%) saturate(14%) hue-rotate(273deg)
+    brightness(106%) contrast(100%);
+  width: 6rem;
+  height: 6rem;
+  position: absolute;
+  margin: auto;
+  z-index: 2000;
+}
+
+.text-icon {
+  position: absolute;
+   top: 18rem;
+  left: 0.75rem;
+  right: 0;
+  bottom: 0;
+  font-weight: bold;
+}
+
+.youtube-overlay {
+  background: rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+}
+
+.close-youtube {
+  display: flex;
+  justify-content: center;
+  background-color: #fff;
+  margin: 1rem;
+}
+
+.close-youtube-wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.description-button {
+  
+}

@@ -1,0 +1,37 @@
+.nav li a {
+  text-decoration: none;
+  font-weight: 300;
+  font-size: 3rem;
+  padding: 1rem;
+}
+
+.nav li {
+  padding : 1.5rem;
+  
+}
+
+.active {
+  border-bottom: 2px solid blue;
+}
+
+.nav {
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  row-gap: 80px; 
+  list-style: none;
+  text-align: center;
+}
+
+.display-block {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.5s linear;
+}
+
+.display-none {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 1s, opacity 0.5s linear;
+}
+

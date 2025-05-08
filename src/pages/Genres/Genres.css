@@ -1,0 +1,18 @@
+.selector {
+  margin-top: 6rem;
+  text-align: center;
+  background-color: #fff;
+  border-radius: 6px;
+  padding: 4px;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 3000;
+  box-shadow: -1px 16px 31px 0px rgba(0, 0, 0, 0.27);
+  outline: none;
+  appearance: none;
+}
+
+.spinner{
+  
+}

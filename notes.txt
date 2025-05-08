@@ -1,0 +1,16 @@
+Search titles
+Get popular
+Get top rated
+Get preview
+Get description inf0
+
+Behaviors:
+    Description overlay onclick
+    Results fade in out
+    Icon animation
+    preview window onclick
+
+video on mouseover: https://jsfiddle.net/MadanBhandari/9uo53t1g/18/
+
+
+get item.caption from card to results

@@ -1,0 +1,46 @@
+* {
+  font-family: "Roboto";
+  font-size: 16px;
+  font-weight: 300;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+}
+.menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 4000;
+  border: none;
+}
+.menu-icon {
+  height: 2rem;
+  width: 2rem;
+}
+
+.search-title {
+  position: fixed;
+  background-color: #fff;
+  z-index: 3000;
+  top: 1rem;
+  width: 100%;
+  margin-top: -20px;
+  padding: 1rem;
+  left: 50%;
+  transform: translate(-50%, 0);
+  font-weight: 300;
+  font-size: 3rem;
+  text-align: center;
+}
+
+.loading {
+  font-size: 3rem;
+
+  margin-top: 10rem;
+  text-align: center;
+}
