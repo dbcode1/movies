@@ -4,7 +4,6 @@ import Results from "../../components/Results/Results.jsx";
 import { motion } from "framer-motion";
 import { caller, movieObject, preview } from "../../utilities.js";
 
-
 const Genres = () => {
   const intialResults = [];
   const [resultObjs, setResultObjs] = useState(intialResults);
@@ -13,7 +12,6 @@ const Genres = () => {
   const [isBusy, setIsBusy] = useState(false);
   const genreObjs = [];
 
- 
   const handleOnChange = (e) => {
     clear();
     const index = e.target.selectedIndex;
@@ -43,7 +41,7 @@ const Genres = () => {
       // data.push(...result.results);
       urls.push(url);
     }
-    
+
     try {
       const requests = urls.map((url) => caller(url));
       const responses = await Promise.all(requests);
@@ -141,7 +139,13 @@ const Genres = () => {
       </select>
 
       {isBusy ? (
-        <></>
+        <>
+          {/* <img
+            src="/assets/spinner.svg"
+            alt="spinner icon"
+            className="spinner"
+          /> */}
+        </>
       ) : (
         <motion.div
           location={location}

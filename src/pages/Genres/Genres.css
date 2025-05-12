@@ -13,6 +13,10 @@
   appearance: none;
 }
 
-.spinner{
-  
+.spinner {
+  text-align: center;
+  margin: 8rem auto;
+  height: 6rem;
+  width: 6rem;
 }
+
