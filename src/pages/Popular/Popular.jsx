@@ -11,7 +11,7 @@ const Popular = () => {
   const popular = async () => {
     let data = [];
     const popularObjs = [];
-    for (let i = 1; i < 10; i++) {
+    for (let i = 1; i <= 5; i++) {
       // if (i > 3) {
       //   setTimeout(() => {}, 1000);
       // }

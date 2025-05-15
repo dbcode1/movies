@@ -1,5 +1,5 @@
 import "./Genres.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState , useTransition} from "react";
 import Results from "../../components/Results/Results.jsx";
 import { motion } from "framer-motion";
 import { caller, movieObject, preview } from "../../utilities.js";
@@ -31,7 +31,7 @@ const Genres = () => {
     let urls = [];
     setSearchKey((prevKey) => prevKey + 1);
     // get page urls
-    for (let i = 1; i < 24; i++) {
+    for (let i = 1; i <= 5; i++) {
       // if (i > 4) {
       //   setTimeout(() => {}, 1000);
       // }
