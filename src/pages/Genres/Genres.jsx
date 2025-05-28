@@ -32,7 +32,7 @@ const Genres = () => {
     setSearchKey((prevKey) => prevKey + 1);
     // get page urls
     for (let i = 1; i <= 5; i++) {
-      // if (i > 4) {
+      // if (i > 1) {
       //   setTimeout(() => {}, 1000);
       // }
 
@@ -156,6 +156,7 @@ const Genres = () => {
           transition={{ duration: 0.5, ease: "easeInOut" }}
         >
           <Results searchKey={searchKey} resultObjs={resultObjs} />
+          
         </motion.div>
       )}
     </div>
