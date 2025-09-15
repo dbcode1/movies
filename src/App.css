@@ -36,6 +36,14 @@
   font-weight: 300;
   font-size: 3rem;
   text-align: center;
+  @media(width <= 700px) {
+    font-size: 2rem;
+  }
+  @media(width <= 500px) {
+    font-size: 1.5rem;
+    margin-top: -13px;
+  }
+
 }
 
 .loading {

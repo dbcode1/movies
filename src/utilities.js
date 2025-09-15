@@ -17,12 +17,8 @@ export const caller = async (url) => {
 };
 
 export const movieObject = async (item, resultObjs) => {
-  // get rid of broken image
-  // if (item.poster_path === null) {
-  //   console.log(" null");
-  //   return null;
-  // }
-  if (item == 'undefined') {
+
+  if (item == "undefined") {
     return;
   }
 
@@ -33,6 +29,7 @@ export const movieObject = async (item, resultObjs) => {
     img: `https://image.tmdb.org/t/p/original${item.poster_path}`,
     clip: await preview(item.id),
   };
+
   return obj;
 };
 
@@ -40,16 +37,13 @@ export const preview = async (id) => {
   const url = `https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`;
   const previewData = await caller(url);
 
-  // use first preview
-  if (previewData.results[0]) {
-    const key = previewData.results[0].key;
-    if (key) {
-      //construct youtube url
-      const youtubeUrl = `https://www.youtube.com/watch?v=${key}`;
+  // get only official trailers
+  const key = previewData.results.map((item) => {
+    const trailer = "trailer";
 
-      return key;
+    if (item !== undefined && item.name.toLowerCase().includes(trailer.toLowerCase())) {
+      return item.key
     }
-  } else {
-    return undefined;
-  }
+  }).filter(value => value !== undefined)
+return key[0]
 };

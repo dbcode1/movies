@@ -38,7 +38,7 @@ const Search = () => {
           const uniqueArray = searchObjs.filter((value, index, self) => {
             return self.indexOf(value) === index;
           });
-
+          console.log(uniqueArray);
           setResultObjs([resultObjs, ...uniqueArray]);
           console.log("results", resultObjs);
         });
@@ -51,25 +51,19 @@ const Search = () => {
 
   return (
     <>
-      {isBusy ? (
-        <div>Loading</div>
-      ) : (
-        <>
-          <SearchBar searchMovies={searchMovies} clear={clear} />
-          <AnimatePresence>
-            <motion.div
-              location={location}
-              key={location.pathname}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
-            >
-              <Results key={uniqid()} resultObjs={resultObjs} />
-            </motion.div>
-          </AnimatePresence>
-        </>
-      )}
+      <SearchBar searchMovies={searchMovies} clear={clear} />
+      <AnimatePresence>
+        <motion.div
+          location={location}
+          key={location.pathname}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
+        >
+          <Results key={uniqid()} resultObjs={resultObjs} />
+        </motion.div>
+      </AnimatePresence>
     </>
   );
 };

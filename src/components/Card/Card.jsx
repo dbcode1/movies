@@ -42,14 +42,14 @@ const Card = (props, results, handleId) => {
         >
           {hoveredId === item.id && (
             <>
-              <motion.div
+              <div
                 className={showClass}
                 key={item.id}
                 onMouseOver={() => props.handleId(item.clip)}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
+                // initial={{ opacity: 0 }}
+                // animate={{ opacity: 1 }}
+                // exit={{ opacity: 0 }}
+                // transition={{ duration: 0.5, ease: "easeInOut" }}
               >
                 <img
                   // icons eight
@@ -62,12 +62,12 @@ const Card = (props, results, handleId) => {
                   className="text-icon" onClick=
                   {(e) => props.getDescription(e, item.overview)}>Description
                 </p>
-              </motion.div>
+              </div>
             </>
           )}
 
           <img src={item.img} alt="movie-poster" loading="lazy" />
-          <p>{item.caption}</p>
+        
         </div>
       )}
     </>

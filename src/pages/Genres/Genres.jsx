@@ -31,7 +31,7 @@ const Genres = () => {
     let urls = [];
     setSearchKey((prevKey) => prevKey + 1);
     // get page urls
-    for (let i = 1; i <= 5; i++) {
+    for (let i = 1; i <= 10; i++) {
       // if (i > 1) {
       //   setTimeout(() => {}, 1000);
       // }

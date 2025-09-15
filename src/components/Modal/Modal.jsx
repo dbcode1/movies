@@ -17,9 +17,9 @@ const Modal = ({ setShow, show, children }) => {
           e.stopPropagation();
         }}
       >
-        <button className="close" onClick={closeNav}>
+        {/* <button className="close" onClick={closeNav}>
           X
-        </button>
+        </button> */}
         
         {children}
       </div>

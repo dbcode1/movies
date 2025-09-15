@@ -3,19 +3,19 @@ import YouTube from "react-youtube";
 import { useEffect } from "react";
 const Card = lazy(() => import("../Card/Card.jsx"));
 import uniqid from "uniqid";
-import { motion } from "framer-motion";
 import "./Results.css";
-import { textarea } from "framer-motion/client";
 
 // fix scrolling on youtube onclick
 
 const Results = (props) => {
   const [showYouTube, setShowYouTube] = useState(false);
   const [showDescription, setShowDescription] = useState(false);
-  const [caption, setCaption] = useState("")
+  const [showCard, setShowCard] = useState("false");
+  const [caption, setCaption] = useState("");
   const [id, setId] = useState("");
 
   const results = props.resultObjs;
+  // toggle show state
 
   const nullCheck = results.filter((item) => {
     return item !== null;
@@ -24,23 +24,30 @@ const Results = (props) => {
     return typeof item.clip !== "undefined" || typeof item.clip !== null;
   });
 
+  //  trigger show class
+  useEffect(() => {
+
+    setShowCard(true)
+  }, [])
+
+  const showCardClass = showCard ? "card  display-block" : "card display-none";
+
   const showYouTubeClass = showYouTube
     ? "youtube-overlay  display-block"
     : "youtube-overlay display-none";
 
-
-    const showDescriptionClass = showDescription
-      ? "youtube-overlay  display-block"
-      : "youtube-overlay display-none";
+  const showDescriptionClass = showDescription
+    ? "youtube-overlay  display-block"
+    : "youtube-overlay display-none";
 
   const handleId = (id) => {
     console.log(id);
     setId(id);
   };
 
-  const descriptionText = (childData)=>{
-    setCaption(childData)
-  }
+  const descriptionText = (childData) => {
+    setCaption(childData);
+  };
 
   const getPreview = (e) => {
     e.preventDefault();
@@ -49,11 +56,10 @@ const Results = (props) => {
 
   const getDescription = (e, text) => {
     e.preventDefault();
-    setCaption(text)
-    console.log("description")
+    setCaption(text);
+    console.log("description");
     setShowDescription(true);
-
-  };  
+  };
 
   return (
     <>
@@ -84,8 +90,9 @@ const Results = (props) => {
           defined.map((item) => {
             return (
               <>
-                <Suspense fallback={<div></div>}>
+             
                   <Card
+                    className={showCardClass}
                     id={uniqid()}
                     item={item}
                     handleId={handleId}
@@ -93,7 +100,7 @@ const Results = (props) => {
                     getPreview={getPreview}
                     getDescription={getDescription}
                   />
-                </Suspense>
+                
               </>
             );
           })}
