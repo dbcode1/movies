@@ -1,5 +1,5 @@
 import "./Genres.css";
-import { useEffect, useState , useTransition} from "react";
+import { useEffect, useState, useTransition } from "react";
 import Results from "../../components/Results/Results.jsx";
 import { motion } from "framer-motion";
 import { caller, movieObject, preview } from "../../utilities.js";
@@ -140,24 +140,14 @@ const Genres = () => {
 
       {isBusy ? (
         <>
-          {/* <img
+          <img
             src="/assets/spinner.svg"
             alt="spinner icon"
             className="spinner"
-          /> */}
+          />
         </>
       ) : (
-        <motion.div
-          location={location}
-          key={location.pathname}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
-        >
-          <Results searchKey={searchKey} resultObjs={resultObjs} />
-          
-        </motion.div>
+        <Results searchKey={searchKey} resultObjs={resultObjs} />
       )}
     </div>
   );

@@ -12,7 +12,7 @@ import { caller, movieObject, preview } from "../../utilities";
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [resultObjs, setResultObjs] = useState([]);
-  const [isBusy, setIsBusy] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   const location = useLocation();
   const clear = () => {
     setResultObjs([]);
@@ -20,10 +20,8 @@ const Search = () => {
   const searchMovies = async (searchTerm) => {
     setResultObjs([]);
     const searchObjs = [];
-    setIsBusy(true);
     const url = `https://api.themoviedb.org/3/search/movie?query=${searchTerm}&with_videos=true&include_video=true`;
     const data = await caller(url);
-    console.log("RAW_DATA", data.results);
     {
       data.results &&
         data.results.length > 0 &&
@@ -38,15 +36,10 @@ const Search = () => {
           const uniqueArray = searchObjs.filter((value, index, self) => {
             return self.indexOf(value) === index;
           });
-          console.log(uniqueArray);
           setResultObjs([resultObjs, ...uniqueArray]);
-          console.log("results", resultObjs);
         });
     }
-    setTimeout(() => {
-      setIsBusy(false);
-      console.log("loaded");
-    }, 500);
+    setIsLoaded(true)
   };
 
   return (
@@ -61,7 +54,7 @@ const Search = () => {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
         >
-          <Results key={uniqid()} resultObjs={resultObjs} />
+          {isLoaded && <Results key={uniqid()} resultObjs={resultObjs} />}
         </motion.div>
       </AnimatePresence>
     </>

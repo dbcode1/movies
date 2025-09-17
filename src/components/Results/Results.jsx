@@ -26,7 +26,6 @@ const Results = (props) => {
 
   //  trigger show class
   useEffect(() => {
-
     setShowCard(true)
   }, [])
 
