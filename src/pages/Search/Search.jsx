@@ -19,6 +19,7 @@ const Search = () => {
   };
   const searchMovies = async (searchTerm) => {
     setResultObjs([]);
+    setIsLoaded(false)
     const searchObjs = [];
     const url = `https://api.themoviedb.org/3/search/movie?query=${searchTerm}&with_videos=true&include_video=true`;
     const data = await caller(url);
@@ -43,6 +44,7 @@ const Search = () => {
   };
 
   return (
+    
     <>
       <SearchBar searchMovies={searchMovies} clear={clear} />
       <AnimatePresence>

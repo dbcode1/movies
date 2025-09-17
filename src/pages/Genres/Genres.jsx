@@ -66,11 +66,11 @@ const Genres = () => {
       setResultObjs([copy, ...uniqueArray]);
     });
 
-    //setIsBusy(false);
+    setIsBusy(false);
 
-    setTimeout(() => {
-      setIsBusy(false);
-    }, 800);
+    // setTimeout(() => {
+    //   setIsBusy(false);
+    // }, 800);
   };
 
   return (

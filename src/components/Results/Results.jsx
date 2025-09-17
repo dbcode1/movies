@@ -26,8 +26,10 @@ const Results = (props) => {
 
   //  trigger show class
   useEffect(() => {
-    setShowCard(true)
+    //setShowCard(true)
   }, [])
+
+
 
   const showCardClass = showCard ? "card  display-block" : "card display-none";
 

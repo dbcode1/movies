@@ -44,7 +44,7 @@ const Popular = () => {
   return (
     <>
       {isBusy ? (
-        <div>Loading</div>
+        <img src="/assets/spinner.svg" alt="spinner icon" className="spinner" />
       ) : (
         <motion.div
           location={location}
