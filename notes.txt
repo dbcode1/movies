@@ -1,16 +1,55 @@
-Search titles
-Get popular
-Get top rated
-Get preview
-Get description inf0
+ 
+  const urlList = (id) => {
+    console.log("urls")
+    let urls = [];
+    // get page urls
+    for (let i = 1; i <= 10; i++) {
+      const url = `https://api.themoviedb.org/3/discover/movie?with_genres=${id}&page=${i}`;
+      // const result = await caller(url);
+      // data.push(...result.results);
+      urls.push(url);
+    }
+    return urls;
+  };
 
-Behaviors:
-    Description overlay onclick
-    Results fade in out
-    Icon animation
-    preview window onclick
+  useEffect(() => {    
+    console.log("effect")
+    const getData = async () => {
+      try {
+        const list = urlList();
+        const requests = list.map((url) => caller(url));
+        const responses = await Promise.all(requests);
+        
+        responses.map((item) => {
+          setData(item.results);
+        });
 
-video on mouseover: https://jsfiddle.net/MadanBhandari/9uo53t1g/18/
+        console.log(data);
+
+        // console.log("All requests finished", movies);
+      } catch {
+        console.log("Error fetching data");
+      }
+    };
+    getData();
+    console.log(data);
+  }, [effect]);
 
 
-get item.caption from card to results
+  useEffect(
+    (searchTerm) => {
+      console.log("useEffect");
+      const getData = async () => {
+        setResultObjs([]);
+        setIsLoaded(false);
+        const searchObjs = [];
+        const url = `https://api.themoviedb.org/3/search/movie?query=${searchTerm}&with_videos=true&include_video=true`;
+        console.log(url);
+        const data = await caller(url);
+        console.log(data);
+        setData(data);
+      };
+      getData();
+    },
+    [effect]
+  );

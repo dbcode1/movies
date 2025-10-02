@@ -52,3 +52,15 @@
   margin-top: 10rem;
   text-align: center;
 }
+
+.display-block {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.5s linear;
+}
+
+.display-none {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 1s, opacity 0.5s linear;
+}

@@ -3,14 +3,12 @@ import { useEffect, useState, useTransition } from "react";
 import Results from "../../components/Results/Results.jsx";
 import { motion } from "framer-motion";
 import { caller, movieObject, preview } from "../../utilities.js";
-
+let genreObjs = [];
 const Genres = () => {
-  const intialResults = [];
-  const [resultObjs, setResultObjs] = useState(intialResults);
+  const [resultObjs, setResultObjs] = useState([]);
   const [genreId, setGenreId] = useState("");
   const [searchKey, setSearchKey] = useState(0);
   const [isBusy, setIsBusy] = useState(false);
-  const genreObjs = [];
 
   const handleOnChange = (e) => {
     clear();
@@ -28,14 +26,11 @@ const Genres = () => {
   const genre = async (id) => {
     setIsBusy(true);
     let data = [];
+
     let urls = [];
     setSearchKey((prevKey) => prevKey + 1);
     // get page urls
-    for (let i = 1; i <= 10; i++) {
-      // if (i > 1) {
-      //   setTimeout(() => {}, 1000);
-      // }
-
+    for (let i = 1; i <= 5; i++) {
       const url = `https://api.themoviedb.org/3/discover/movie?with_genres=${id}&page=${i}`;
       // const result = await caller(url);
       // data.push(...result.results);
@@ -48,29 +43,29 @@ const Genres = () => {
       responses.map((item) => {
         data.push(item.results);
       });
-
-      // console.log("All requests finished", movies);
     } catch {
       console.log("Error fetching data");
     }
 
-    data.flat().forEach(async (item) => {
-      const resultData = await movieObject(item);
-      genreObjs.push(resultData);
-
-      const uniqueArray = genreObjs.filter((value, index, self) => {
-        return self.indexOf(value) === index;
-      });
-
-      const copy = resultObjs.slice("");
-      setResultObjs([copy, ...uniqueArray]);
+    const flatData = data.flat();
+    const movieObjs = flatData.map(async (item) => {
+      
+      const result = await movieObject(item);
+      console.log(result);
+      return result;
     });
 
-    setIsBusy(false);
+    const m = await Promise.all(movieObjs);
 
-    // setTimeout(() => {
-    //   setIsBusy(false);
-    // }, 800);
+    const unique = m.filter((value, index, self) => {
+      return self.indexOf(value) === index;
+    });
+
+    const copy = resultObjs.slice("");
+    setResultObjs([copy, ...unique]);
+
+    console.log(resultObjs);
+    setIsBusy(false);
   };
 
   return (

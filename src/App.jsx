@@ -7,6 +7,7 @@ import Search from "./pages/Search/Search.jsx";
 import Popular from "./pages/Popular/Popular.jsx";
 import Genres from "./pages/Genres/Genres.jsx";
 import Modal from "./components/Modal/Modal.jsx";
+import menu from "./assets/hamburger.svg"
 import "./App.css";
 
 function App() {
@@ -16,6 +17,9 @@ function App() {
     setShow(true);
   };
 
+  const showClass = show ? "modal display-block" : "modal display-none";
+
+
   return (
     <>
       <BrowserRouter>
@@ -23,7 +27,7 @@ function App() {
           <div className="title-wrapper">
             <button className="menu" onClick={openNav}>
               <img
-                src="/assets/hamburger.svg"
+                src={menu}
                 alt="menu icon"
                 className="menu-icon"
               />
@@ -33,7 +37,7 @@ function App() {
             </p>
           </div>
 
-          <Modal setShow={setShow} show={show}>
+          <Modal className={showClass} setShow={setShow} show={show}>
             <Nav setShow={setShow}></Nav>
           </Modal>
 

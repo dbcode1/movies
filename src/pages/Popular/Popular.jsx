@@ -1,17 +1,22 @@
 import "./Popular.css";
 import { useState, useEffect } from "react";
 import Results from "../../components/Results/Results.jsx";
+import Spinner from "../../components/Spinner/Spinner.jsx";
+
 import uniqid from "uniqid";
 import { motion } from "framer-motion";
 import { caller, movieObject, preview } from "../../utilities";
+import spinner from "../../assets/spinner.svg";
+
 const Popular = () => {
   const [resultObjs, setResultObjs] = useState([]);
   const [isBusy, setIsBusy] = useState(false);
+ 
 
   const popular = async () => {
     let data = [];
     const popularObjs = [];
-    for (let i = 1; i <= 5; i++) {
+    for (let i = 1; i <= 2; i++) {
       // if (i > 3) {
       //   setTimeout(() => {}, 1000);
       // }
@@ -44,18 +49,9 @@ const Popular = () => {
   return (
     <>
       {isBusy ? (
-        <img src="/assets/spinner.svg" alt="spinner icon" className="spinner" />
+        <Spinner />
       ) : (
-        <motion.div
-          location={location}
-          key={location.pathname}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
-        >
-          {resultObjs && <Results resultObjs={resultObjs} />}
-        </motion.div>
+        <>{resultObjs && <Results resultObjs={resultObjs} />}</>
       )}
     </>
   );

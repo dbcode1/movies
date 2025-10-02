@@ -1,8 +1,10 @@
-import { useState, lazy, Suspense } from "react";
+import { useState, useRef, lazy, Suspense } from "react";
 import YouTube from "react-youtube";
+import Modal from "../Modal/Modal.jsx";
 import { useEffect } from "react";
 const Card = lazy(() => import("../Card/Card.jsx"));
 import uniqid from "uniqid";
+
 import "./Results.css";
 
 // fix scrolling on youtube onclick
@@ -13,6 +15,7 @@ const Results = (props) => {
   const [showCard, setShowCard] = useState("false");
   const [caption, setCaption] = useState("");
   const [id, setId] = useState("");
+  const idRef = useRef("");
 
   const results = props.resultObjs;
   // toggle show state
@@ -24,15 +27,6 @@ const Results = (props) => {
     return typeof item.clip !== "undefined" || typeof item.clip !== null;
   });
 
-  //  trigger show class
-  useEffect(() => {
-    //setShowCard(true)
-  }, [])
-
-
-
-  const showCardClass = showCard ? "card  display-block" : "card display-none";
-
   const showYouTubeClass = showYouTube
     ? "youtube-overlay  display-block"
     : "youtube-overlay display-none";
@@ -43,7 +37,7 @@ const Results = (props) => {
 
   const handleId = (id) => {
     console.log(id);
-    setId(id);
+    idRef.current = id;
   };
 
   const descriptionText = (childData) => {
@@ -57,9 +51,9 @@ const Results = (props) => {
 
   const getDescription = (e, text) => {
     e.preventDefault();
-    setCaption(text);
     console.log("description");
     setShowDescription(true);
+    setCaption(text);
   };
 
   return (
@@ -67,7 +61,7 @@ const Results = (props) => {
       <div className="results" key={uniqid()}>
         {/* you tube window */}
         <div className={showYouTubeClass}>
-          <YouTube videoId={id} className="youtube" />
+          <YouTube videoId={idRef.current} className="youtube"></YouTube>
           <button
             className="close-youtube"
             onClick={() => setShowYouTube(false)}
@@ -77,31 +71,26 @@ const Results = (props) => {
         </div>
         {/* description window */}
         <div className={showDescriptionClass}>
-          <div className="description">
-            <button
-              className="close-youtube"
-              onClick={() => setShowDescription(false)}
-            >
-              X
-            </button>
-            {caption}
-          </div>
+          <button
+            className="close-youtube"
+            onClick={() => setShowDescription(false)}
+          >
+            X
+          </button>
+          <div className="description">{caption}</div>
         </div>
         {defined &&
           defined.map((item) => {
             return (
               <>
-             
-                  <Card
-                    className={showCardClass}
-                    id={uniqid()}
-                    item={item}
-                    handleId={handleId}
-                    descriptionText={descriptionText}
-                    getPreview={getPreview}
-                    getDescription={getDescription}
-                  />
-                
+                <Card
+                  id={uniqid()}
+                  item={item}
+                  handleId={handleId}
+                  descriptionText={descriptionText}
+                  getPreview={getPreview}
+                  getDescription={getDescription}
+                />
               </>
             );
           })}

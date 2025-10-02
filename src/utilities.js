@@ -10,6 +10,7 @@ export const caller = async (url) => {
   try {
     const data = await fetch(url, options);
     const json = await data.json();
+    
     return json;
   } catch (err) {
     console.log("ERROR FETCHING DATA", err);

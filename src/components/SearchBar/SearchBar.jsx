@@ -9,7 +9,9 @@ function SearchBar({ searchMovies, clear }) {
     console.log("search");
     e.preventDefault();
     searchMovies(e.target.elements[0].value);
+    setSearchTerm(searchTerm)
     e.target.elements[0].value = "";
+    
   };
   console.log(searchTerm);
   return (

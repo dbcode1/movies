@@ -3,18 +3,17 @@ import YouTube from "react-youtube";
 import { AnimatePresence, motion } from "framer-motion";
 import uniqid from "uniqid";
 import "./Card.css";
+import play from "../../assets/play.svg"
 
 const Card = (props, results, handleId) => {
+  const [showCardClass, setShowCardClass] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [hoveredId, setHoveredId] = useState(null);
   const [showYouTube, setShowYouTube] = useState(false);
-  const [caption, setCaption] = useState("")
-  const [itemId, setId] = useState("");
+  const [id, setId] = useState("");
 
-  const showClass = showModal
-    ? "img-overlay display-block"
-    : "img-overlay display-none";
-
+  const cardClass = showCardClass ? "card fade-out-item" : "card fade-in-item";
+  
   const showYouTubeClass = showYouTube
     ? "youtube-overlay  display-block"
     : "youtube-overlay display-none";
@@ -24,8 +23,8 @@ const Card = (props, results, handleId) => {
     setHoveredId(null);
   };
   const open = (id) => {
-    setShowModal(true);
-    setHoveredId(id);
+    //setShowModal(true);
+    //setHoveredId(id);
   };
 
   const item = props.item;
@@ -34,44 +33,40 @@ const Card = (props, results, handleId) => {
     <>
       {typeof item.clip !== "undefined" && item && (
         <div
-          className="card"
+          className={cardClass}
           onMouseOut={close}
           onMouseOver={() => open(item.id)}
           location={location}
           key={uniqid()}
         >
-          {hoveredId === item.id && (
+          {/* {hoveredId === item.id && ( */}
+          {item.id && (
             <>
-              <div
-                className={showClass}
-                key={item.id}
-                onMouseOver={() => props.handleId(item.clip)}
-                // initial={{ opacity: 0 }}
-                // animate={{ opacity: 1 }}
-                // exit={{ opacity: 0 }}
-                // transition={{ duration: 0.5, ease: "easeInOut" }}
-              >
+              <div  className="controls" key={item.id} onMouseOver={() => props.handleId(item.clip)}>
                 <img
                   // icons eight
-                  src="/assets/play.svg"
+                  src={play}
                   alt="play icon"
                   className="play-icon"
                   onClick={props.getPreview}
                 />
                 <p
-                  className="text-icon" onClick=
-                  {(e) => props.getDescription(e, item.overview)}>Description
+                  className="text-icon"
+                  onClick={(e) => {
+                    props.getDescription(e, item.overview);
+                  }}
+                >
+                  Description
                 </p>
               </div>
             </>
           )}
 
-          <img src={item.img} alt="movie-poster" loading="lazy" />
-        
+          <img src={item.img} alt="movie-poster" />
         </div>
       )}
     </>
   );
 };
- 
+
 export default Card;
