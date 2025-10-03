@@ -1,6 +1,10 @@
 import "./Genres.css";
 import { useEffect, useState, useTransition } from "react";
 import Results from "../../components/Results/Results.jsx";
+import { dataFormatter } from "../../utilities.js";
+
+import Spinner from "../../components/Spinner/Spinner.jsx";
+
 import { motion } from "framer-motion";
 import { caller, movieObject, preview } from "../../utilities.js";
 let genreObjs = [];
@@ -24,47 +28,14 @@ const Genres = () => {
     setResultObjs([]);
   };
   const genre = async (id) => {
+    clear()
     setIsBusy(true);
-    let data = [];
-
-    let urls = [];
-    setSearchKey((prevKey) => prevKey + 1);
-    // get page urls
-    for (let i = 1; i <= 5; i++) {
-      const url = `https://api.themoviedb.org/3/discover/movie?with_genres=${id}&page=${i}`;
-      // const result = await caller(url);
-      // data.push(...result.results);
-      urls.push(url);
-    }
-
-    try {
-      const requests = urls.map((url) => caller(url));
-      const responses = await Promise.all(requests);
-      responses.map((item) => {
-        data.push(item.results);
-      });
-    } catch {
-      console.log("Error fetching data");
-    }
-
-    const flatData = data.flat();
-    const movieObjs = flatData.map(async (item) => {
-      
-      const result = await movieObject(item);
-      console.log(result);
-      return result;
-    });
-
-    const m = await Promise.all(movieObjs);
-
-    const unique = m.filter((value, index, self) => {
-      return self.indexOf(value) === index;
-    });
+    let data = []
+    console.log(id)
+    const dataFormatted = await dataFormatter(id);
 
     const copy = resultObjs.slice("");
-    setResultObjs([copy, ...unique]);
-
-    console.log(resultObjs);
+    setResultObjs([copy, ...dataFormatted]);
     setIsBusy(false);
   };
 
@@ -135,11 +106,7 @@ const Genres = () => {
 
       {isBusy ? (
         <>
-          <img
-            src="/assets/spinner.svg"
-            alt="spinner icon"
-            className="spinner"
-          />
+          <Spinner />
         </>
       ) : (
         <Results searchKey={searchKey} resultObjs={resultObjs} />

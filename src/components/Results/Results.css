@@ -71,6 +71,7 @@ img {
   top: 0;
   right: 0;
   margin: 1rem;
+  color: black
 }
 
 .description {
@@ -81,4 +82,7 @@ img {
   font-size: 1.25rem;
   line-height: 25px;
   background-color: #fff;
+  & p {
+    color: black;
+  }
 }

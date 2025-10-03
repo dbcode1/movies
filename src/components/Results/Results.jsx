@@ -77,7 +77,9 @@ const Results = (props) => {
           >
             X
           </button>
-          <div className="description">{caption}</div>
+          <div className="description">
+            <p>{caption}</p>
+          </div>
         </div>
         {defined &&
           defined.map((item) => {

@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import uniqid from "uniqid";
 import "./Card.css";
 import play from "../../assets/play.svg"
+import description from "../../assets/description.svg"
 
 const Card = (props, results, handleId) => {
   const [showCardClass, setShowCardClass] = useState(false);
@@ -42,7 +43,7 @@ const Card = (props, results, handleId) => {
           {/* {hoveredId === item.id && ( */}
           {item.id && (
             <>
-              <div  className="controls" key={item.id} onMouseOver={() => props.handleId(item.clip)}>
+              <div  className="controls img-overlay" key={item.id} onMouseOver={() => props.handleId(item.clip)}>
                 <img
                   // icons eight
                   src={play}
@@ -50,14 +51,15 @@ const Card = (props, results, handleId) => {
                   className="play-icon"
                   onClick={props.getPreview}
                 />
-                <p
+                <img
+                src={description}
                   className="text-icon"
                   onClick={(e) => {
                     props.getDescription(e, item.overview);
                   }}
-                >
-                  Description
-                </p>
+                 />
+               
+                
               </div>
             </>
           )}

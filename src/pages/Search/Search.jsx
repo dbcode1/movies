@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import uniqid from "uniqid";
 import "./Search.css";
 import Results from "../../components/Results/Results.jsx";
+import Spinner from "../../components/Spinner/Spinner.jsx";
 import { caller, movieObject, preview } from "../../utilities";
 
 // search needs search term from searchbar
@@ -12,39 +13,45 @@ import { caller, movieObject, preview } from "../../utilities";
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [resultObjs, setResultObjs] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isBusy, setIsBusy] = useState(false);
+
   const location = useLocation();
   const clear = () => {
     setResultObjs([]);
   };
   const searchMovies = async (searchTerm) => {
     setResultObjs([]);
-    setIsLoaded(false)
+    setIsBusy(true);
     const searchObjs = [];
     const url = `https://api.themoviedb.org/3/search/movie?query=${searchTerm}&with_videos=true&include_video=true`;
-    const data = await caller(url);
-    {
-      data.results &&
-        data.results.length > 0 &&
-        data.results.map(async (item, index) => {
-          const resultData = await movieObject(item, searchObjs);
-          //get rid of broken images
-          if (resultData == null) {
-            console.log("null");
-            return;
-          }
-          searchObjs.push(resultData);
-          const uniqueArray = searchObjs.filter((value, index, self) => {
-            return self.indexOf(value) === index;
-          });
-          setResultObjs([resultObjs, ...uniqueArray]);
-        });
-    }
-    setIsLoaded(true)
-  };
 
+    let results = [];
+    try {
+      const data = await caller(url);
+      console.log(data.results);
+      data.results.map((item) => {
+        results.push(item);
+      });
+    } catch {
+      console.log("Error fetching data");
+    }
+
+    const movieObjs = results.map(async (item) => {
+      const result = await movieObject(item);
+      return result;
+    });
+
+    const m = await Promise.all(movieObjs);
+    console.log(m);
+    const unique = m.filter((value, index, self) => {
+      return self.indexOf(value) === index;
+    });
+    const copy = resultObjs.slice("");
+    setResultObjs([copy, ...unique]);
+    setIsBusy(false);
+  };
+  console.log(resultObjs);
   return (
-    
     <>
       <SearchBar searchMovies={searchMovies} clear={clear} />
       <AnimatePresence>
@@ -56,7 +63,13 @@ const Search = () => {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
         >
-          {isLoaded && <Results key={uniqid()} resultObjs={resultObjs} />}
+          {isBusy ? (
+            <>
+              <Spinner />
+            </>
+          ) : (
+            <Results resultObjs={resultObjs} />
+          )}
         </motion.div>
       </AnimatePresence>
     </>

@@ -48,16 +48,16 @@ img {
   position: absolute;
   margin: auto;
   z-index: 2000;
-
 }
 
-.text-icon {
+p.text-icon {
   position: absolute;
   top: 18rem;
   left: 0.75rem;
   right: 0;
   bottom: 0;
   font-weight: bold;
+  color: black !important
 }
 
 .youtube-overlay {
@@ -89,7 +89,8 @@ img {
   opacity: 0;
 }
 .controls:hover {
-  opacity: 1;
+  animation: fadeIn 0.25s ease-in forwards;
+
   color: red;
 }
 
