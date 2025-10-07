@@ -1,0 +1,8 @@
+.load-button {
+  display: block;
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  width: 50px;
+  padding: 10px;
+}

@@ -4,39 +4,69 @@ import Results from "../../components/Results/Results.jsx";
 import { dataFormatter } from "../../utilities.js";
 
 import Spinner from "../../components/Spinner/Spinner.jsx";
+import down from "../../assets/down-arrow.svg";
 
-import { motion } from "framer-motion";
-import { caller, movieObject, preview } from "../../utilities.js";
 let genreObjs = [];
 const Genres = () => {
   const [resultObjs, setResultObjs] = useState([]);
   const [genreId, setGenreId] = useState("");
   const [searchKey, setSearchKey] = useState(0);
   const [isBusy, setIsBusy] = useState(false);
+  const [hasScrolled, setHasScrolled] = useState(false);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [movieId, setMovieId] = useState(0)
 
   const handleOnChange = (e) => {
+    console.log("page number", pageNumber)
     clear();
     const index = e.target.selectedIndex;
     const optionElement = e.target.childNodes[index];
     const optionId = optionElement.getAttribute("id");
-    genre(optionId);
+    console.log("optionId", optionId)
+    setMovieId(optionId)
+    console.log(movieId)
+    genre(optionId, pageNumber);
     setGenreId(optionId);
+    return optionId
   };
+
+  useEffect(() => {
+    
+  })
+  
 
   const clear = () => {
     console.log("clear state");
     setResultObjs([]);
   };
-  const genre = async (id) => {
-    clear()
-    setIsBusy(true);
-    let data = []
-    console.log(id)
-    const dataFormatted = await dataFormatter(id);
 
+  const handleLoad = (e, movieId, pageNumber) => {
+   
+    setPageNumber((prev) => prev + 1);
+    genre(movieId, pageNumber)
+    
+  };
+
+  const genre = async (id, pageNumber) => {
+    clear();
+    setIsBusy(true);
+    const dataFormatted = await dataFormatter(id, pageNumber);
+    console.log(dataFormatted);
     const copy = resultObjs.slice("");
     setResultObjs([copy, ...dataFormatted]);
     setIsBusy(false);
+  };
+
+  window.onscroll = function () {
+    if (!hasScrolled) {
+      if (
+        Math.ceil(window.innerHeight + window.pageYOffset) >=
+        document.body.offsetHeight
+      ) {
+        setHasScrolled(true);
+        console.log("BOTTOM");
+      }
+    }
   };
 
   return (
@@ -46,6 +76,7 @@ const Genres = () => {
         name="genres"
         id="genres"
         onChange={handleOnChange}
+        movieId={movieId}
       >
         <option selected="selected">Genre</option>
         <option id="28" value="action">
@@ -109,7 +140,19 @@ const Genres = () => {
           <Spinner />
         </>
       ) : (
-        <Results searchKey={searchKey} resultObjs={resultObjs} />
+        <>
+          {hasScrolled && (
+            <a href="#" onClick={ (e) =>  {handleLoad(e, movieId, pageNumber)} }>
+              <img
+                // icons eight
+                src={down}
+                alt="load more results"
+                className="load-button"
+              />
+            </a>
+          )}
+          <Results searchKey={searchKey} resultObjs={resultObjs} />
+        </>
       )}
     </div>
   );

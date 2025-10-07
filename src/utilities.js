@@ -1,4 +1,22 @@
 const bearer = import.meta.env.VITE_API_BEARER_KEY;
+// export const caller = async (url) => {
+//   const options = {
+//     method: "GET",
+//     headers: {
+//       accept: "application/json",
+//       Authorization: `Bearer ${bearer}`,
+//     },
+//   };
+//   try {
+//     const data = await fetch(url, options);
+//     const json = await data.json();
+
+//     return json;
+//   } catch (err) {
+//     console.log("ERROR FETCHING DATA", err);
+//   }
+// };
+
 export const caller = async (url) => {
   const options = {
     method: "GET",
@@ -10,18 +28,16 @@ export const caller = async (url) => {
   try {
     const data = await fetch(url, options);
     const json = await data.json();
-
     return json;
   } catch (err) {
     console.log("ERROR FETCHING DATA", err);
   }
 };
 
-export const movieObject = async (item, resultObjs) => {
+export const movieObject = async (item) => {
   if (item == "undefined") {
     return;
   }
-
   const obj = {
     title: item.original_title,
     overview: item.overview,
@@ -35,7 +51,7 @@ export const movieObject = async (item, resultObjs) => {
 
 export const preview = async (id) => {
   const url = `https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`;
-  const previewData = await caller(url);
+  const previewData = await caller( url);
 
   // get only official trailers
   const key = previewData.results
@@ -53,16 +69,16 @@ export const preview = async (id) => {
   return key[0];
 };
 
-const urlList = () => {
+const urlList = (pageNumber) => {
+  console.log("pageNumber", pageNumber)
   let urls = [];
-  for (let i = 1; i <= 8; i++) {
+  for (let i = 1; i <= 2; i++) {
     // if (i > 3) {
     //   setTimeout(() => {}, 1000);
     // }
-    const url = `https://api.themoviedb.org/3/discover/movie?&certification_country=US&language=en-US&popularity.gte=100&vote_average.gte=7&vote_count.gte=1000&page=${i}`;
-    // const result = await caller(url);
-    // data.push(...result.results)
+    const url = `https://api.themoviedb.org/3/discover/movie?&certification_country=US&language=en-US&popularity.gte=100&vote_average.gte=7&vote_count.gte=1000&page=${pageNumber}`;
     urls.push(url);
+    console.log(url)
   }
   return urls;
 };
@@ -75,26 +91,26 @@ call with page number
 update state without causing huge rerender glitches
 */
 
-const genreUrls = (id) => {
-  console.log(id);
+const genreUrls = (id, pageNumber) => {
   let urls = [];
-  //setSearchKey((prevKey) => prevKey + 1);
-  // get page urls
-  for (let i = 1; i <= 5; i++) {
-    const url = `https://api.themoviedb.org/3/discover/movie?with_genres=${id}&page=${i}`;
+  for (let i = 1; i <= 2; i++) {
+    const url = `https://api.themoviedb.org/3/discover/movie?with_genres=${id}&page=${pageNumber}`;
     urls.push(url);
+    console.log(url)
   }
   return urls;
 };
 
-export const dataFormatter = async (id) => {
+export const dataFormatter = async (id,pageNumber) => {
   let data = [];
   let requests;
   !id
-    ? (requests = urlList().map((url) => caller(url)))
-    : (requests = genreUrls(id).map((url) => caller(url)));
+    ? (requests = urlList(pageNumber).map((url) => caller(url)))
+    : (requests = genreUrls(id, pageNumber).map((url) => caller(url)));
+
   try {
     const responses = await Promise.all(requests);
+    console.log(responses)
     responses.map((item) => {
       data.push(item.results);
     });
@@ -109,9 +125,10 @@ export const dataFormatter = async (id) => {
   });
 
   const m = await Promise.all(movieObjs);
+ 
+  const unique  = m.filter(
+    (user, index, self) => index === self.findIndex((u) => u.title === user.title)
+  );
 
-  const unique = m.filter((value, index, self) => {
-    return self.indexOf(value) === index;
-  });
   return unique;
 };

@@ -2,6 +2,7 @@
   margin-top: 6rem;
   text-align: center;
   background-color: #fff;
+  
   border-radius: 6px;
   padding: 4px;
   position: fixed;
@@ -9,9 +10,13 @@
   left: 1rem;
   z-index: 3000;
   box-shadow: -1px 16px 31px 0px rgba(0, 0, 0, 0.27);
-  outline: none;
-  appearance: none;
+  
+  appearance: base-select;
 }
 
-
-
+select,
+::picker(select) {
+  appearance: base-select;
+  border: none;
+  outline:none;
+}

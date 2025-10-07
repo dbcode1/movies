@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import Nav from "./components/Nav/Nav.jsx";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+
 import { AnimatePresence } from "framer-motion";
 import Search from "./pages/Search/Search.jsx";
 import Popular from "./pages/Popular/Popular.jsx";
@@ -9,6 +11,8 @@ import Genres from "./pages/Genres/Genres.jsx";
 import Modal from "./components/Modal/Modal.jsx";
 import menu from "./assets/hamburger.svg"
 import "./App.css";
+
+const queryClient = new QueryClient();
 
 function App() {
   const [show, setShow] = useState(false);
@@ -21,7 +25,7 @@ function App() {
 
 
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <AnimatePresence exit={{opacity: 0}} exitBeforeEnter>
           <div className="title-wrapper">
@@ -48,7 +52,7 @@ function App() {
           </Routes>
         </AnimatePresence>
       </BrowserRouter>
-    </>
+    </QueryClientProvider>
   );
 }
 
