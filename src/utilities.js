@@ -46,6 +46,7 @@ export const movieObject = async (item) => {
     id: item.id,
     img: `https://image.tmdb.org/t/p/original${item.poster_path}`,
     clip: await preview(item.id),
+    
   };
 
   return obj;
@@ -85,14 +86,6 @@ const urlList = (pageNumber) => {
   return urls;
 };
 
-// TODO: pagination button which triggers a new request each click
-
-/*
-keep track of page number
-call with page number
-update state without causing huge rerender glitches
-*/
-
 const genreUrls = (id, pageNumber) => {
   let urls = [];
   for (let i = 1; i <= 2; i++) {
@@ -102,6 +95,23 @@ const genreUrls = (id, pageNumber) => {
   }
   return urls;
 };
+
+export const getTotal = async (id, pageNumber) => {
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${bearer}`,
+    },
+  };
+  const resp = await fetch(`https://api.themoviedb.org/3/discover/movie?with_genres=${id}&page=${pageNumber}`, options)
+  const result = await resp.json()
+  console.log("RESULT", result.total_pages)
+  return result.total_pages
+}
+
+
+
 
 export const dataFormatter = async (id, pageNumber) => {
   let data = [];

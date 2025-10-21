@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
 import Nav from "./components/Nav/Nav.jsx";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
@@ -9,7 +10,7 @@ import Search from "./pages/Search/Search.jsx";
 import Popular from "./pages/Popular/Popular.jsx";
 import Genres from "./pages/Genres/Genres.jsx";
 import Modal from "./components/Modal/Modal.jsx";
-import menu from "./assets/hamburger.svg"
+import menu from "./assets/hamburger.svg";
 import "./App.css";
 
 const queryClient = new QueryClient();
@@ -23,18 +24,13 @@ function App() {
 
   const showClass = show ? "modal display-block" : "modal display-none";
 
-
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <AnimatePresence exit={{opacity: 0}} exitBeforeEnter>
+        <AnimatePresence exit={{ opacity: 0 }} exitBeforeEnter>
           <div className="title-wrapper">
             <button className="menu" onClick={openNav}>
-              <img
-                src={menu}
-                alt="menu icon"
-                className="menu-icon"
-              />
+              <img src={menu} alt="menu icon" className="menu-icon" />
             </button>
             <p className="search-title">
               <span>m</span>oving pictures
@@ -52,6 +48,7 @@ function App() {
           </Routes>
         </AnimatePresence>
       </BrowserRouter>
+      <ReactQueryDevtools></ReactQueryDevtools>
     </QueryClientProvider>
   );
 }

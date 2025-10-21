@@ -1,14 +1,13 @@
 import "./Genres.css";
 import { Suspense, useEffect, useState, useTransition } from "react";
 import Results from "../../components/Results/Results.jsx";
-import { dataFormatter } from "../../utilities.js";
-import { useQuery } from "@tanstack/react-query";
+import { dataFormatter, getTotal } from "../../utilities.js";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Spinner from "../../components/Spinner/Spinner.jsx";
 import down from "../../assets/down-arrow.svg";
 
 let genreObjs = [];
 const Genres = () => {
-  console.log("genres");
   // set show card false
   const [resultObjs, setResultObjs] = useState([]);
   const [genreId, setGenreId] = useState("");
@@ -16,18 +15,33 @@ const Genres = () => {
   const [hasScrolled, setHasScrolled] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
   const [movieId, setMovieId] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+
+  const queryClient = useQueryClient();
+
+  // get total pages
+
+  useEffect(() => {
+    const getTotalValue = async () => {
+      const total = await getTotal(movieId, pageNumber);
+      console.log(total);
+      const nextPage = pageNumber + 1;
+      if (pageNumber < total) {
+        console.log("PREFETCH");
+        queryClient.prefetchQuery({
+          queryKey: ["genres", movieId, nextPage],
+          queryFn: () => dataFormatter(movieId, nextPage),
+        });
+      }
+    };
+    getTotalValue();
+  }, [movieId, pageNumber, queryClient]);
 
   const { data, refetch, isPending, isLoading, isFetching, error } = useQuery({
-    queryKey: ["popular", movieId, pageNumber],
+    queryKey: ["genres", movieId, pageNumber],
     queryFn: () => dataFormatter(movieId, pageNumber),
-
-    //enabled: false,
-    // onSucess: (pageNumber) => {
-    //       setPageNumber((prev) => prev + 1)
-    // },
+    staleTime: 2000,
   });
-
-  if (data) console.log("DATA", data);
 
   const handleOnChange = (e) => {
     console.log("page number", pageNumber);
@@ -49,14 +63,6 @@ const Genres = () => {
   const handleLoad = (e, movieId, pageNumber) => {
     setPageNumber((prev) => prev + 1);
     //genre(movieId, pageNumber);
-  };
-
-  const genre = async (id, pageNumber) => {
-    clear();
-    const dataFormatted = await dataFormatter(id, pageNumber);
-    console.log(dataFormatted);
-    const copy = resultObjs.slice("");
-    setResultObjs([copy, ...dataFormatted]);
   };
 
   window.onscroll = function () {
@@ -156,10 +162,13 @@ const Genres = () => {
             />
           </a>
         )}
-    
 
         {data && !isLoading && (
-          <Results isLoading={isLoading} searchKey={searchKey} resultObjs={data} />
+          <Results
+            isLoading={isLoading}
+            searchKey={searchKey}
+            resultObjs={data}
+          />
         )}
       </>
     </div>
