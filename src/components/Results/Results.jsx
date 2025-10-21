@@ -1,5 +1,7 @@
-import { useState, useRef, lazy, Suspense } from "react";
+import { useState, memo, useRef, lazy, Suspense } from "react";
 import YouTube from "react-youtube";
+import { motion, AnimatePresence } from "framer-motion";
+
 import Modal from "../Modal/Modal.jsx";
 import { useEffect } from "react";
 const Card = lazy(() => import("../Card/Card.jsx"));
@@ -9,10 +11,11 @@ import "./Results.css";
 
 // fix scrolling on youtube onclick
 
-const Results = (props) => {
+const Results = memo((props) => {
+  console.log("results");
   const [showYouTube, setShowYouTube] = useState(false);
   const [showDescription, setShowDescription] = useState(false);
-  const [showCard, setShowCard] = useState("false");
+  const [showCard, setShowCard] = useState(false);
   const [caption, setCaption] = useState("");
   const [id, setId] = useState("");
   const idRef = useRef("");
@@ -23,9 +26,19 @@ const Results = (props) => {
   const nullCheck = results.filter((item) => {
     return item !== null;
   });
+
   const defined = nullCheck.filter((item) => {
     return typeof item.clip !== "undefined" || typeof item.clip !== null;
   });
+
+  // card animation
+  // useEffect(() => {
+  //   console.log("card appear");
+  //   setShowCard(true)
+  //   return () => {
+  //     setShowCard(false)
+  //   };
+  // }, [showCard]);
 
   const showYouTubeClass = showYouTube
     ? "youtube-overlay  display-block"
@@ -55,7 +68,7 @@ const Results = (props) => {
     setShowDescription(true);
     setCaption(text);
   };
-
+  console.log("showcard", showCard);
   return (
     <>
       <div className="results" key={uniqid()}>
@@ -70,7 +83,7 @@ const Results = (props) => {
           </button>
         </div>
         {/* description window */}
-        <div className={showDescriptionClass}>
+          <div className={showDescriptionClass}>
           <button
             className="close-youtube"
             onClick={() => setShowDescription(false)}
@@ -81,24 +94,32 @@ const Results = (props) => {
             <p>{caption}</p>
           </div>
         </div>
-        {defined &&
-          defined.map((item) => {
-            return (
-              <>
-                <Card
-                  id={uniqid()}
-                  item={item}
-                  handleId={handleId}
-                  descriptionText={descriptionText}
-                  getPreview={getPreview}
-                  getDescription={getDescription}
-                />
-              </>
-            );
-          })}
+        <AnimatePresence>
+          <motion.div
+            className="card-animation-container"
+            key={uniqid()}
+            initial={{ opacity: 0, y: 60 }}
+            animate={{ opacity: 1, y: 0}}
+            exit={{ opacity: 0 }}
+          >
+            {defined &&
+              defined.map((item) => {
+                return (
+                  <Card
+                    key={uniqid()}
+                    item={item}
+                    handleId={handleId}
+                    descriptionText={descriptionText}
+                    getPreview={getPreview}
+                    getDescription={getDescription}
+                  />
+                );
+              })}
+          </motion.div>
+        </AnimatePresence>
       </div>
     </>
   );
-};
+});
 
 export default Results;

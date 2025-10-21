@@ -1,4 +1,5 @@
 .card {
+  display: flex;
   position: relative;
   width: 12rem;
   margin: 1rem;
@@ -61,7 +62,7 @@ p.text-icon {
 }
 
 .youtube-overlay {
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(0, 0, 0, 0.75);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -82,17 +83,17 @@ p.text-icon {
 }
 
 .fade-in-item {
-  animation: fadeIn 0.5s ease-in forwards; /* Adjust duration and timing function as needed */
+  animation: fadeIn 0.5s ease-in forwards; }
+
+.fade-out-item {
+  animation: fadeOut 0.5s ease-out backwards;
 }
 
 .controls {
   opacity: 0;
+  z-index: 1000;
 }
-.controls:hover {
-  animation: fadeIn 0.25s ease-in forwards;
 
-  color: red;
-}
 
 @keyframes fadeIn {
   from {
@@ -102,6 +103,7 @@ p.text-icon {
     opacity: 1;
   }
 }
+
 
 @keyframes fadeOut {
   from {

@@ -1,3 +1,5 @@
+import { useQuery } from "@tanstack/react-query";
+
 const bearer = import.meta.env.VITE_API_BEARER_KEY;
 // export const caller = async (url) => {
 //   const options = {
@@ -51,7 +53,7 @@ export const movieObject = async (item) => {
 
 export const preview = async (id) => {
   const url = `https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`;
-  const previewData = await caller( url);
+  const previewData = await caller(url);
 
   // get only official trailers
   const key = previewData.results
@@ -70,7 +72,7 @@ export const preview = async (id) => {
 };
 
 const urlList = (pageNumber) => {
-  console.log("pageNumber", pageNumber)
+  console.log("pageNumber", pageNumber);
   let urls = [];
   for (let i = 1; i <= 2; i++) {
     // if (i > 3) {
@@ -78,7 +80,7 @@ const urlList = (pageNumber) => {
     // }
     const url = `https://api.themoviedb.org/3/discover/movie?&certification_country=US&language=en-US&popularity.gte=100&vote_average.gte=7&vote_count.gte=1000&page=${pageNumber}`;
     urls.push(url);
-    console.log(url)
+    console.log(url);
   }
   return urls;
 };
@@ -96,12 +98,12 @@ const genreUrls = (id, pageNumber) => {
   for (let i = 1; i <= 2; i++) {
     const url = `https://api.themoviedb.org/3/discover/movie?with_genres=${id}&page=${pageNumber}`;
     urls.push(url);
-    console.log(url)
+    console.log(url);
   }
   return urls;
 };
 
-export const dataFormatter = async (id,pageNumber) => {
+export const dataFormatter = async (id, pageNumber) => {
   let data = [];
   let requests;
   !id
@@ -110,7 +112,7 @@ export const dataFormatter = async (id,pageNumber) => {
 
   try {
     const responses = await Promise.all(requests);
-    console.log(responses)
+    console.log(responses);
     responses.map((item) => {
       data.push(item.results);
     });
@@ -125,9 +127,10 @@ export const dataFormatter = async (id,pageNumber) => {
   });
 
   const m = await Promise.all(movieObjs);
- 
-  const unique  = m.filter(
-    (user, index, self) => index === self.findIndex((u) => u.title === user.title)
+
+  const unique = m.filter(
+    (user, index, self) =>
+      index === self.findIndex((u) => u.title === user.title)
   );
 
   return unique;

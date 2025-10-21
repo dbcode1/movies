@@ -1,5 +1,7 @@
 import "./Popular.css";
 import { useState, useEffect, useRef } from "react";
+import { dataTagSymbol, useQuery } from "@tanstack/react-query";
+
 import { dataFormatter } from "../../utilities.js";
 import Results from "../../components/Results/Results.jsx";
 import Spinner from "../../components/Spinner/Spinner.jsx";
@@ -7,66 +9,57 @@ import down from "../../assets/down-arrow.svg";
 
 const Popular = () => {
   const [resultObjs, setResultObjs] = useState([]);
-  const [isBusy, setIsBusy] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
   const [hasScrolled, setHasScrolled] = useState(false);
-  const [pageOffset, setPageOffset] = useState(0);
   const loadRef = useRef(null);
-  const page = pageNumber;
-  console.log("offset", document.documentElement.offsetHeight);
+
+  // tanstack
+  const { data, refetch, isPending, isLoading, isFetching, error } = useQuery({
+    queryKey: ["popular", pageNumber],
+    queryFn: () => dataFormatter(null, pageNumber),
+
+    //enabled: false,
+    // onSucess: (pageNumber) => {
+    //       setPageNumber((prev) => prev + 1)
+    // },
+  });
+
+  if (data) console.log("DATA", data);
 
   const popular = async (page) => {
     console.log("popular");
     let data = [];
     console.log(page);
     const popularObjs = [];
-    setIsBusy(true);
     const dataFormatted = await dataFormatter(null, pageNumber);
     console.log(dataFormatted);
 
     const copy = resultObjs.slice("");
     setResultObjs([copy, ...dataFormatted]);
-    setIsBusy(false);
   };
 
   const handleLoad = (movieId) => {
     setPageNumber((prev) => prev + 1);
-    console.log("LOAD", pageOffset);
-    // window.scrollTo({
-    //   top: pageOffset,
-    //   left: 0,
-    //   behavior: "smooth", // for smooth scrolling
-    // });
   };
 
-  //setIsBusy(false)
   useEffect(() => {
-    popular(pageNumber, null);
-  }, [pageNumber]);
+    const handleScroll = () => {
+      if (!hasScrolled) {
+        if (
+          Math.ceil(window.innerHeight + window.pageYOffset) >=
+          document.body.offsetHeight
+        ) {
+          //setPageNumber((prev) => prev + 1);
 
-  useEffect(() => {
-const handleScroll = () => {
-    if (!hasScrolled) {
-      if (
-        Math.ceil(window.innerHeight + window.pageYOffset) >=
-        document.body.offsetHeight
-      ) {
-        //setPageNumber((prev) => prev + 1);
-
-        setHasScrolled(true);
-        console.log("BOTTOM", window.pageYOffset);
-        //setPageOffset(window.pageYOffset);
+          setHasScrolled(true);
+          console.log("BOTTOM", window.pageYOffset);
+          //setPageOffset(window.pageYOffset);
+        }
       }
-    }
-  };
+    };
 
-  window.addEventListener("scroll", handleScroll);
-
-  })
-  
-  // if (hasScrolled) {
-  //   window.removeEventListener("scroll", handleScroll);
-  // }
+    window.addEventListener("scroll", handleScroll);
+  });
 
   function isAtBottom() {
     const scrollHeight = document.documentElement.scrollHeight;
@@ -85,28 +78,23 @@ const handleScroll = () => {
     }
   }
 
-  // Attach the event listener
-  // window.addEventListener("scroll", handleBottomScroll);
+  if (isLoading) return <Spinner />;
+  !data ? null : console.log(data);
 
   return (
     <>
-      {isBusy ? (
-        <Spinner />
-      ) : (
-        <>
-          {hasScrolled && (
-            <a href="#" onClick={handleLoad}>
-              <img
-                // icons eight
-                src={down}
-                alt="load more results"
-                className="load-button"
-              />
-            </a>
-          )}
-          {resultObjs && <Results resultObjs={resultObjs} />}
-        </>
+      {hasScrolled && (
+        <a href="#" onClick={handleLoad}>
+          <img
+            // icons eight
+            src={down}
+            alt="load more results"
+            className="load-button"
+          />
+        </a>
       )}
+
+      <Results resultObjs={data} />
     </>
   );
 };

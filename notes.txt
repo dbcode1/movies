@@ -1,55 +1,9 @@
- 
-  const urlList = (id) => {
-    console.log("urls")
-    let urls = [];
-    // get page urls
-    for (let i = 1; i <= 10; i++) {
-      const url = `https://api.themoviedb.org/3/discover/movie?with_genres=${id}&page=${i}`;
-      // const result = await caller(url);
-      // data.push(...result.results);
-      urls.push(url);
-    }
-    return urls;
-  };
+total_pages
 
-  useEffect(() => {    
-    console.log("effect")
-    const getData = async () => {
-      try {
-        const list = urlList();
-        const requests = list.map((url) => caller(url));
-        const responses = await Promise.all(requests);
-        
-        responses.map((item) => {
-          setData(item.results);
-        });
+PROBLEMS:
+ on hover elements show onload
+ cards are loading peacemeal not all at once
+  ? slow internet causing this
 
-        console.log(data);
-
-        // console.log("All requests finished", movies);
-      } catch {
-        console.log("Error fetching data");
-      }
-    };
-    getData();
-    console.log(data);
-  }, [effect]);
-
-
-  useEffect(
-    (searchTerm) => {
-      console.log("useEffect");
-      const getData = async () => {
-        setResultObjs([]);
-        setIsLoaded(false);
-        const searchObjs = [];
-        const url = `https://api.themoviedb.org/3/search/movie?query=${searchTerm}&with_videos=true&include_video=true`;
-        console.log(url);
-        const data = await caller(url);
-        console.log(data);
-        setData(data);
-      };
-      getData();
-    },
-    [effect]
-  );
+fade out not working after state change in usestate
+fade in works 

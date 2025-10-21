@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, memo } from "react";
 import YouTube from "react-youtube";
 import { AnimatePresence, motion } from "framer-motion";
 import uniqid from "uniqid";
@@ -6,14 +6,14 @@ import "./Card.css";
 import play from "../../assets/play.svg"
 import description from "../../assets/description.svg"
 
-const Card = (props, results, handleId) => {
-  const [showCardClass, setShowCardClass] = useState(false);
+const Card = memo((props, results, handleId) => {
+  console.log("card mount")
   const [showModal, setShowModal] = useState(false);
   const [hoveredId, setHoveredId] = useState(null);
   const [showYouTube, setShowYouTube] = useState(false);
   const [id, setId] = useState("");
 
-  const cardClass = showCardClass ? "card fade-out-item" : "card fade-in-item";
+  const cardClass = props.showCard ? "card fade-in-item" : "card fade-out-item";
   
   const showYouTubeClass = showYouTube
     ? "youtube-overlay  display-block"
@@ -23,10 +23,6 @@ const Card = (props, results, handleId) => {
     setShowModal(false);
     setHoveredId(null);
   };
-  const open = (id) => {
-    //setShowModal(true);
-    //setHoveredId(id);
-  };
 
   const item = props.item;
 
@@ -34,9 +30,8 @@ const Card = (props, results, handleId) => {
     <>
       {typeof item.clip !== "undefined" && item && (
         <div
-          className={cardClass}
+          className="card fade-in-item"
           onMouseOut={close}
-          onMouseOver={() => open(item.id)}
           location={location}
           key={uniqid()}
         >
@@ -69,6 +64,6 @@ const Card = (props, results, handleId) => {
       )}
     </>
   );
-};
+})
 
 export default Card;
