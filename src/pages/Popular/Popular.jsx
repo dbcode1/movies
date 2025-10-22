@@ -97,12 +97,12 @@ const Popular = () => {
     }
   }
 
-  
+  // if (isLoading) return <Spinner />;
   !data ? null : console.log(data);
 
   return (
     <>
-      {hasScrolled && (
+      {hasScrolled && !isLoading && (
         <a href="#" onClick={handleLoad}>
           <img
             // icons eight
@@ -113,7 +113,7 @@ const Popular = () => {
         </a>
       )}
 
-      <Results resultObjs={data} />
+      {!isLoading && <Results resultObjs={data} />}
     </>
   );
 };
