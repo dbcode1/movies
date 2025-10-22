@@ -26,6 +26,8 @@ const Card = memo((props, results, handleId) => {
 
   const item = props.item;
 
+  
+
   return (
     <>
       {typeof item.clip !== "undefined" && item && (

@@ -1,8 +1,8 @@
 import "./Popular.css";
 import { useState, useEffect, useRef } from "react";
-import { dataTagSymbol, useQuery } from "@tanstack/react-query";
+import { useQueryClient, useQuery } from "@tanstack/react-query";
 
-import { dataFormatter } from "../../utilities.js";
+import { dataFormatter, getPopularTotal } from "../../utilities.js";
 import Results from "../../components/Results/Results.jsx";
 import Spinner from "../../components/Spinner/Spinner.jsx";
 import down from "../../assets/down-arrow.svg";
@@ -14,9 +14,28 @@ const Popular = () => {
   const loadRef = useRef(null);
 
   // tanstack
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    const getTotalValue = async () => {
+      const total = await getPopularTotal(pageNumber);
+      console.log("TOTAL===========", pageNumber);
+      const nextPage = pageNumber + 1;
+      if (pageNumber < total) {
+        console.log("PREFETCH");
+        queryClient.prefetchQuery({
+          queryKey: ["popular", nextPage],
+          queryFn: () => dataFormatter(nextPage),
+        });
+      }
+    };
+    getTotalValue();
+  }, [pageNumber, queryClient]);
+
   const { data, refetch, isPending, isLoading, isFetching, error } = useQuery({
     queryKey: ["popular", pageNumber],
     queryFn: () => dataFormatter(null, pageNumber),
+    staleTime: 2000,
 
     //enabled: false,
     // onSucess: (pageNumber) => {
@@ -78,7 +97,7 @@ const Popular = () => {
     }
   }
 
-  if (isLoading) return <Spinner />;
+  
   !data ? null : console.log(data);
 
   return (

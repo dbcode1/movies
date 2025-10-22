@@ -68,7 +68,6 @@ const Results = memo((props) => {
     setShowDescription(true);
     setCaption(text);
   };
-  console.log("showcard", showCard);
   return (
     <>
       <div className="results" key={uniqid()}>
@@ -95,18 +94,18 @@ const Results = memo((props) => {
           </div>
         </div>
         <AnimatePresence>
-          <motion.div
+          {/* <motion.div
             className="card-animation-container"
             key={uniqid()}
             initial={{ opacity: 0, y: 60 }}
             animate={{ opacity: 1, y: 0}}
             exit={{ opacity: 0 }}
-          >
+          > */}
             {defined &&
               defined.map((item) => {
                 return (
                   <Card
-                    key={uniqid()}
+                    // key={item.title}
                     item={item}
                     handleId={handleId}
                     descriptionText={descriptionText}
@@ -115,7 +114,7 @@ const Results = memo((props) => {
                   />
                 );
               })}
-          </motion.div>
+          {/* </motion.div> */}
         </AnimatePresence>
       </div>
     </>

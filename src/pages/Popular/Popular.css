@@ -1,6 +1,9 @@
 .load-button {
   display: block;
   position: fixed;
+  z-index: 100;
+  background-color: rgb(209, 208, 208);
+  border-radius: 50%;
   bottom: 10px;
   left: 10px;
   width: 50px;
