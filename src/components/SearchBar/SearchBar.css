@@ -3,7 +3,10 @@
   position: fixed;
   width: 100vw;
   top: 0;
-  margin-top: 2.8rem;
+  margin-top: 4rem;
+  @media (width <= 700px) {
+    margin-top: 2.8rem;
+  }
   left: 0;
   text-align: center;
   background-color: #fff;
@@ -82,4 +85,3 @@ button {
   @media (max-width: 700px) {
   }
 }
-
