@@ -3,7 +3,7 @@
   position: fixed;
   width: 100vw;
   top: 0;
-  margin-top: 4rem;
+  margin-top: 3.8rem;
   @media (width <= 700px) {
     margin-top: 2.8rem;
   }
