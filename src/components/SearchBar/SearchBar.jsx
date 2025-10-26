@@ -2,6 +2,7 @@ import { useState } from "react";
 import Results from "../Results/Results";
 import "./SearchBar.css";
 
+
 function SearchBar({ searchMovies, clear }) {
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -9,14 +10,14 @@ function SearchBar({ searchMovies, clear }) {
     console.log("search");
     e.preventDefault();
     searchMovies(e.target.elements[0].value);
-    setSearchTerm(searchTerm)
+    setSearchTerm(searchTerm);
     e.target.elements[0].value = "";
-    
   };
   console.log(searchTerm);
   return (
     <div className="searchbar">
       <form onSubmit={search} className="form">
+        
         <input
           type="text"
           className="searchterm"

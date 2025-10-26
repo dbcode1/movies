@@ -53,7 +53,7 @@ const Search = () => {
   console.log(resultObjs);
   return (
     <>
-      <SearchBar searchMovies={searchMovies} clear={clear} />
+      <SearchBar className="searchbar"searchMovies={searchMovies} clear={clear} />
       <AnimatePresence>
         <motion.div
           location={location}

@@ -36,11 +36,6 @@ const Popular = () => {
     queryKey: ["popular", pageNumber],
     queryFn: () => dataFormatter(null, pageNumber),
     staleTime: 2000,
-
-    //enabled: false,
-    // onSucess: (pageNumber) => {
-    //       setPageNumber((prev) => prev + 1)
-    // },
   });
 
   if (data) console.log("DATA", data);
@@ -71,7 +66,6 @@ const Popular = () => {
           //setPageNumber((prev) => prev + 1);
 
           setHasScrolled(true);
-          console.log("BOTTOM", window.pageYOffset);
           //setPageOffset(window.pageYOffset);
         }
       }
@@ -80,24 +74,13 @@ const Popular = () => {
     window.addEventListener("scroll", handleScroll);
   });
 
-  function isAtBottom() {
-    const scrollHeight = document.documentElement.scrollHeight;
-    const scrollTop = window.scrollY;
-    const clientHeight = document.documentElement.clientHeight;
-
-    return scrollTop + clientHeight >= scrollHeight;
-  }
-
-  // Function to handle the bottom scroll event
-  function handleBottomScroll() {
-    if (isAtBottom()) {
-      //setHasScrolled(true);
-      setPageNumber((prev) => prev + 1);
-      console.log("BOTTOM REACHED");
-    }
-  }
+  
 
   // if (isLoading) return <Spinner />;
+  if (error) {
+    console.log(error)
+    return <div className="error">{error}</div>;
+  }
   !data ? null : console.log(data);
 
   return (

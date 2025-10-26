@@ -69,12 +69,7 @@ p.text-icon {
   z-index: 3000;
 }
 
-.close-youtube {
-  display: flex;
-  justify-content: center;
-  background-color: #fff;
-  margin: 1rem;
-}
+
 
 .close-youtube-wrapper {
   position: absolute;

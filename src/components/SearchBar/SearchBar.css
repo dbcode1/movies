@@ -1,17 +1,13 @@
 .searchbar {
   box-shadow: 1px 4px 5px 5px rgba(0, 0, 0, 0.01);
-  padding: 1rem;
   position: fixed;
   width: 100vw;
-  height: 6rem;
-  top: 2.5rem;
+  top: 0;
+  margin-top: 2.8rem;
+  left: 0;
   text-align: center;
   background-color: #fff;
   z-index: 1500;
-  /* display: flex;
-  align-items: center;
-  justify-content: space-around;
-  flex-direction: column; */
 }
 
 input {
@@ -57,7 +53,7 @@ button {
   border: 1px solid #fff;
   color: grey;
   text-decoration: none;
-  padding: 1rem;
+  padding: 0.5rem;
   display: inline-block;
   margin: 1rem;
   transition: all 0.2s;
@@ -87,5 +83,3 @@ button {
   }
 }
 
-.top {
-}

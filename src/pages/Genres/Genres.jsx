@@ -19,8 +19,6 @@ const Genres = () => {
 
   const queryClient = useQueryClient();
 
-  // get total pages
-
   useEffect(() => {
     const getTotalValue = async () => {
       const total = await getTotal(movieId, pageNumber);
@@ -37,7 +35,7 @@ const Genres = () => {
     getTotalValue();
   }, [movieId, pageNumber, queryClient]);
 
-  const { data, refetch, isPending, isLoading, isFetching, error } = useQuery({
+  const { data, refetch, isLoading, error } = useQuery({
     queryKey: ["genres", movieId, pageNumber],
     queryFn: () => dataFormatter(movieId, pageNumber),
     staleTime: 2000,
@@ -50,7 +48,6 @@ const Genres = () => {
     const optionElement = e.target.childNodes[index];
     const optionId = optionElement.getAttribute("id");
     setMovieId(optionId);
-    //genre(optionId, pageNumber);
     setGenreId(optionId);
     return optionId;
   };
@@ -62,7 +59,6 @@ const Genres = () => {
 
   const handleLoad = (e, movieId, pageNumber) => {
     setPageNumber((prev) => prev + 1);
-    //genre(movieId, pageNumber);
   };
 
   window.onscroll = function () {
@@ -76,10 +72,13 @@ const Genres = () => {
     }
   };
 
-  if (isLoading) {
-    return <Spinner />;
-  }
+  // if (isLoading) {
+  //   return <Spinner />;
+  // }
 
+  if (error) {
+    return ( <div className="error">{error}</div>)
+  }
   return (
     <div className="genre">
       <select

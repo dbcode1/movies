@@ -1,30 +1,26 @@
 import "./Modal.css";
-import uniqid from "uniqid";
-import { AnimatePresence, motion } from "framer-motion";
+import { memo } from "react"
 
-const Modal = ({ setShow, show, children }) => {
+
+const Modal = memo(({ setShow, show, close, children }) => {
   const showClass = show ? "modal display-block" : "modal display-none";
 
-  const closeNav = () => {
-    setShow(false);
-  };
-
   return (
-    <div className={showClass} onClick={closeNav}>
+    <div className={showClass} onClick={close}>
       <div
         className="modal-main"
         onClick={(e) => {
           e.stopPropagation();
         }}
       >
-        {/* <button className="close" onClick={closeNav}>
+        <button className="close" onClick={close}>
           X
-        </button> */}
+        </button>
         
         {children}
       </div>
     </div>
   );
-};
+})
 
 export default Modal;

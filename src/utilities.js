@@ -144,7 +144,7 @@ export const dataFormatter = async (id, pageNumber) => {
     responses.map((item) => {
       data.push(item.results);
     });
-  } catch {
+  } catch (error){
     console.log("Error fetching data");
   }
 

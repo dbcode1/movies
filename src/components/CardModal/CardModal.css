@@ -1,0 +1,9 @@
+.close {
+  display: fixed;
+  top: 10;
+  right: 10;
+  justify-content: center;
+  background-color: #fff;
+  margin: 1rem;
+  padding: 1rem;
+}

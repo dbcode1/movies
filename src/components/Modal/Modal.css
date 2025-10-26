@@ -36,10 +36,6 @@
   transition: visibility 0s 1s, opacity 0.5s linear;
 }
 
-.close {
-  padding: 0;
-}
-
 .youtube-overlay {
   background: rgba(0, 0, 0, 0.25);
   display: flex;

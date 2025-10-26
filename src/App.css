@@ -11,44 +11,64 @@
   vertical-align: baseline;
   background: transparent;
 }
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.body {
+  height: 100vh;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: absolute;
+}
 .menu {
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 10px;
+  left: 12px;
   z-index: 4000;
   border: none;
+  padding: 0.5em;
+  box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.08);
+  transition: transform 1s ease;
+
+  :hover {
+    transform: rotate(90deg);
+  }
 }
 .menu-icon {
   height: 2rem;
   width: 2rem;
 }
 
+.title-wrapper {
+  
+}
 .search-title {
   position: fixed;
   background-color: #fff;
   z-index: 3000;
-  top: 1rem;
   width: 100%;
-  margin-top: -20px;
   padding: 1rem;
   left: 50%;
   transform: translate(-50%, 0);
   font-weight: 300;
   font-size: 3rem;
   text-align: center;
-  @media(width <= 700px) {
+  @media (width <= 700px) {
     font-size: 2rem;
   }
-  @media(width <= 500px) {
+  @media (width <= 500px) {
     font-size: 1.5rem;
     margin-top: -13px;
   }
-
 }
 
 .loading {
   font-size: 3rem;
-
   margin-top: 10rem;
   text-align: center;
 }
@@ -63,4 +83,26 @@
   visibility: hidden;
   opacity: 0;
   transition: visibility 0s 1s, opacity 0.5s linear;
+}
+
+.film-container {
+  position: relative;
+  display: inline-block;
+  margin-bottom: -2px;
+  top: 0;
+  right: 0;
+  z-index: 4000;
+  border: none;
+}
+.film-icon {
+  height: 2rem;
+  width: 2rem;
+  filter: brightness(0) saturate(100%) invert(72%) sepia(4%) saturate(13%)
+    hue-rotate(3deg) brightness(111%) contrast(88%);
+}
+.m {
+  color: red;
+}
+.p {
+  color: lightblue;
 }

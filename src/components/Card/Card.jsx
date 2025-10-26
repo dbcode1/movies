@@ -1,38 +1,41 @@
-import { useState, useEffect, memo } from "react";
+import { useState, useEffect, memo, useRef } from "react";
 import YouTube from "react-youtube";
 import { AnimatePresence, motion } from "framer-motion";
 import uniqid from "uniqid";
 import "./Card.css";
 import play from "../../assets/play.svg"
 import description from "../../assets/description.svg"
+import { CardModal } from "../CardModal/CardModal";
 
-const Card = memo((props, results, handleId) => {
-  console.log("card mount")
-  const [showModal, setShowModal] = useState(false);
-  const [hoveredId, setHoveredId] = useState(null);
+const Card = memo((props, results) => {
   const [showYouTube, setShowYouTube] = useState(false);
-  const [id, setId] = useState("");
+    const [showDescription, setShowDescription] = useState(false);
+    const idRef = useRef("");
 
-  const cardClass = props.showCard ? "card fade-in-item" : "card fade-out-item";
-  
-  const showYouTubeClass = showYouTube
-    ? "youtube-overlay  display-block"
-    : "youtube-overlay display-none";
+  const getPreview = (e) => {
+    e.preventDefault();
+    setShowYouTube(true);
+  };
 
-  const close = (e) => {
-    setShowModal(false);
-    setHoveredId(null);
+  const getDescription = (e, text) => {
+    e.preventDefault();
+    console.log("description");
+    setShowDescription(true);
+    setCaption(text);
+  };
+
+  const handleId = (id) => {
+    console.log(id);
+    idRef.current = id;
   };
 
   const item = props.item;
-
-  
 
   return (
     <>
       {typeof item.clip !== "undefined" && item && (
         <div
-          className="card fade-in-item"
+          className="card"
           onMouseOut={close}
           location={location}
           key={uniqid()}
@@ -40,23 +43,33 @@ const Card = memo((props, results, handleId) => {
           {/* {hoveredId === item.id && ( */}
           {item.id && (
             <>
-              <div  className="controls img-overlay" key={item.id} onMouseOver={() => props.handleId(item.clip)}>
+              <CardModal
+                setShowDescription={setShowDescription}
+                setShowYouTube={setShowYouTube}
+                showYouTube={showYouTube}
+                showDescription={showDescription}
+                ref={idRef.current}
+                caption={item.overview}
+              ></CardModal>
+              <div
+                className="controls img-overlay"
+                key={item.id}
+                onMouseOver={() => handleId(item.clip)}
+              >
                 <img
                   // icons eight
                   src={play}
                   alt="play icon"
                   className="play-icon"
-                  onClick={props.getPreview}
+                  onClick={getPreview}
                 />
                 <img
-                src={description}
+                  src={description}
                   className="text-icon"
                   onClick={(e) => {
-                    props.getDescription(e, item.overview);
+                    getDescription(e, item.overview);
                   }}
-                 />
-               
-                
+                />
               </div>
             </>
           )}

@@ -1,5 +1,6 @@
-.results , .card-animation-container{
-  margin-top: 6rem;
+.results,
+.card-animation-container {
+  margin-top: 3rem;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -11,7 +12,6 @@ img {
   width: 100%;
   height: auto;
 }
-
 
 .img-overlay {
   position: absolute;
@@ -63,7 +63,7 @@ img {
   z-index: 3000;
 }
 
-.close-youtube {
+.close {
   display: flex;
   justify-content: center;
   background-color: #fff;
@@ -71,7 +71,8 @@ img {
   top: 0;
   right: 0;
   margin: 1rem;
-  color: black
+  color: black;
+  padding: 0.5rem;
 }
 
 .description {
