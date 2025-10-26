@@ -42,19 +42,12 @@ const Genres = () => {
   });
 
   const handleOnChange = (e) => {
-    console.log("page number", pageNumber);
-    clear();
     const index = e.target.selectedIndex;
     const optionElement = e.target.childNodes[index];
     const optionId = optionElement.getAttribute("id");
     setMovieId(optionId);
     setGenreId(optionId);
     return optionId;
-  };
-
-  const clear = () => {
-    console.log("clear state");
-    setResultObjs([]);
   };
 
   const handleLoad = (e, movieId, pageNumber) => {
@@ -88,7 +81,7 @@ const Genres = () => {
         onChange={handleOnChange}
         movieId={movieId}
       >
-        <option selected="selected">Genre</option>
+        <option >Genre</option>
         <option id="28" value="action">
           Action
         </option>
