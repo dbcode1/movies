@@ -40,10 +40,11 @@ function SelectComponent(props) {
         selectProps={{ handleOnChange, handleOnSelect }}
         menuPortalTarget={document.body}
         menuPosition={"fixed"}
+        menuPlacement={"top"}
         styles={{
           menuPortal: (base) => ({
             ...base,
-            zIndex: 9999,
+            zIndex: 10000,
           }),
           container: (provided) => ({
             ...provided,
@@ -51,6 +52,7 @@ function SelectComponent(props) {
             width: 10 + "em",
             top: 120,
             left: 40,
+            zIndex: 10000,
           }),
         }}
       />
