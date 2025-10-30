@@ -38,6 +38,7 @@ export const caller = async (url) => {
 
 export const movieObject = async (item) => {
   if (item == "undefined") {
+    console.log("NO DATA")
     return;
   }
   const obj = {

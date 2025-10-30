@@ -25,14 +25,14 @@ const Popular = () => {
         console.log("PREFETCH");
         queryClient.prefetchQuery({
           queryKey: ["popular", nextPage],
-          queryFn: () => dataFormatter(nextPage),
+          queryFn: () => dataFormatter(null, nextPage),
         });
       }
     };
     getTotalValue();
   }, [pageNumber, queryClient]);
 
-  const { data, refetch, isPending, isLoading, isFetching, error } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ["popular", pageNumber],
     queryFn: () => dataFormatter(null, pageNumber),
     staleTime: 2000,
@@ -63,10 +63,7 @@ const Popular = () => {
           Math.ceil(window.innerHeight + window.pageYOffset) >=
           document.body.offsetHeight
         ) {
-          //setPageNumber((prev) => prev + 1);
-
           setHasScrolled(true);
-          //setPageOffset(window.pageYOffset);
         }
       }
     };
@@ -74,13 +71,12 @@ const Popular = () => {
     window.addEventListener("scroll", handleScroll);
   });
 
-  
-
   // if (isLoading) return <Spinner />;
   if (error) {
-    console.log(error)
+    console.log(error);
     return <div className="error">{error}</div>;
   }
+
   !data ? null : console.log(data);
 
   return (
@@ -96,7 +92,7 @@ const Popular = () => {
         </a>
       )}
 
-      {!isLoading && <Results resultObjs={data} />}
+      {!isLoading && data && <Results resultObjs={data} />}
     </>
   );
 };

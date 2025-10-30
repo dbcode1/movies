@@ -1,17 +1,5 @@
-.selector {
-  
-  text-align: center;
-  background-color: #fff;
-  
-  border-radius: 6px;
-  padding: 4px;
+.genre {
   position: relative;
-  top: 5rem;
-  left: 3rem;
-  z-index: 3000;
-  box-shadow: -1px 16px 31px 0px rgba(0, 0, 0, 0.27);
-  
-  appearance: base-select;
 }
 
 select,
@@ -20,3 +8,10 @@ select,
   border: none;
   outline:none;
 }
+
+  width: 11rem;
+  position: fixed;
+  top: 110px;
+  left:20px;
+  z-index: 10000;
+} */

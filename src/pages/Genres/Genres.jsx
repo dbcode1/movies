@@ -5,6 +5,8 @@ import { dataFormatter, getTotal } from "../../utilities.js";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Spinner from "../../components/Spinner/Spinner.jsx";
 import down from "../../assets/down-arrow.svg";
+import Select, { components } from "react-select";
+import SelectComponent from "../../components/Select/Select.jsx";
 
 let genreObjs = [];
 const Genres = () => {
@@ -16,6 +18,10 @@ const Genres = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [movieId, setMovieId] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
+
+  /* TODO:
+  - get movie id from select component
+  */
 
   const queryClient = useQueryClient();
 
@@ -41,13 +47,17 @@ const Genres = () => {
     staleTime: 2000,
   });
 
-  const handleOnChange = (e) => {
-    const index = e.target.selectedIndex;
-    const optionElement = e.target.childNodes[index];
-    const optionId = optionElement.getAttribute("id");
-    setMovieId(optionId);
-    setGenreId(optionId);
-    return optionId;
+  const handleOnChange = async (movieId, pageNumber) => {
+    console.log("PREFETCH");
+    queryClient.prefetchQuery({
+      queryKey: ["genres", movieId, pageNumber],
+      queryFn: () => dataFormatter(movieId, pageNumber),
+      staleTime: 3000000,
+    });
+  };
+
+  const handleOnSelect = async (id, pageNumber) => {
+    setMovieId(id);
   };
 
   const handleLoad = (e, movieId, pageNumber) => {
@@ -70,74 +80,15 @@ const Genres = () => {
   // }
 
   if (error) {
-    return ( <div className="error">{error}</div>)
+    return <div className="error">{error}</div>;
   }
-  return (
-    <div className="genre">
-      <select
-        className="selector"
-        name="genres"
-        id="genres"
-        onChange={handleOnChange}
-        movieId={movieId}
-      >
-        <option >Genre</option>
-        <option id="28" value="action">
-          Action
-        </option>
-        <option id="12" value="adventure">
-          Adventure
-        </option>
-        <option id="16" value="animation">
-          Animation
-        </option>
-        <option id="35" value="comedy">
-          Comedy
-        </option>
-        <option id="80" value="crime">
-          Crime
-        </option>
-        <option id="99" value="documentary">
-          Documentary
-        </option>
-        <option id="18" value="drama">
-          Drama
-        </option>
-        <option id="10751" value="family">
-          Family
-        </option>
-        <option id="14" value="fantasy">
-          Fantasy
-        </option>
-        <option id="36" value="history">
-          History
-        </option>
-        <option id="27" value="horror">
-          Horror
-        </option>
-        <option id="10402" value="music">
-          Music
-        </option>
-        <option id="9648" value="mystery">
-          Mystery
-        </option>
-        <option id="10749" value="romance">
-          Romance
-        </option>
-        <option id="878" value="science fiction">
-          Science Fiction
-        </option>
-        <option id="53" value="thriller">
-          Thriller
-        </option>
-        <option id="10752" value="war">
-          war
-        </option>
-        <option id="37" value="western">
-          western
-        </option>
-      </select>
 
+  return (
+    <div>
+      <SelectComponent
+        selectProps={{ handleOnChange, handleOnSelect }}
+        onChange={console.log("change")}
+      />
       <>
         {hasScrolled && (
           <a
